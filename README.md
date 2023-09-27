@@ -1,7 +1,8 @@
 # Anatomy of Webpack with React
+This project dives deep into the ecosystem of most popular bundler for Javascript i.e. Webpack. The project uses React as a frontend library and uses tailwindcss for styling. 
 
 ## Getting started
-Let's start my setting up the folder and installation of the initial packages
+Let's start by setting up the folder and installation of the initial packages
 1. Create a folder. The folder is named as react-with-webpack in this case
 2. Initilize the package.json file  `pnpm init`
 3. Install the required dependencies 
