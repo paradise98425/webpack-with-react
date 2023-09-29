@@ -1,0 +1,13 @@
+// This tells Babel to use the presets(plugins) that are installed and mentioned in package.json file. Then when 'babel-loader' is called from 
+// webpack, this is where the webpack will look to know what to do. 
+
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    "@bable/plugin-transform-class-properties"
+  ]
+}
