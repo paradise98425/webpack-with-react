@@ -32,28 +32,7 @@ Let's start by setting up the folders and installation of the initial packages:
   * webpack-nano — Webpack CLI
   * webpack-plugin-serve — Provides a development server for your application
 
-5. Install the tailwindcss
-  - `pnpm  install -D tailwindcss postcss autoprefixer`
-  - `npx tailwindcss init -p`
-  - Configure path to template files. Inside ***tailwind.config.js***, we need to specify the path to our React template files by adding the following configuration setting:
-    `
-    module.exports = {
-      content: [
-        "./src/**/*.{js,jsx,ts,tsx}",
-      ],
-      theme: {
-        extend: {},
-      },
-      plugins: [],
-    }
-  `
-  - Create a file ***main.css*** inside the folder src, and add tailwind directives like this:
-    `
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
-    `
-6. Setting up Babel
+5. Setting up Babel
  - Create a file in the root of the project, and name it as ***.babelrc***
  - paste this piece of code inside the file
   `
@@ -70,7 +49,7 @@ Let's start by setting up the folders and installation of the initial packages:
   `
   This tells Babel to use the presets (plugins) we previously installed. Later when we call babel-loader from Webpack, this is where it will look to know what to do.
 
-7. Setting up Webpack
+6. Setting up Webpack
  - Create a file inside *src* folder named as ***index.js***
  - Create another file in the root of the project, and name it as ***webpack.config.js***
  - paste this piece of code inside the file
@@ -137,6 +116,99 @@ Let's start by setting up the folders and installation of the initial packages:
     };
   ``
 
-8. Creating the React App
+7. Creating the React App
+  - Create a 'public' directory move into it and also create an index.html file. 
+  - Also, add favicon.ico file here
+  - Open the index.html file and copy the following:
+    ```
+      <!DOCTYPE html>
+      <html lang="en">
+
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link async rel="stylesheet" href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+        <title>webpack-for-react</title>
+      </head>
+
+      <body>
+        <div id="root"></div>
+      </body>
+
+      </html>
+    ``` 
+  - Now, inside your src/index.js file, copy the following:
+  `
+    import React from 'react';
+    import { createRoot } from 'react-dom/client';
+    import App from './components/App';
+
+    createRoot(document.getElementById('root')).render(<App />);
+  `
+  - Create a 'components' folder & create files: App.js, Layout.js, Layout.css, Home.js, DynamicPage.js, NoMatch.js
+  - Open App.js and copy the following:
+  `
+    import React from 'react';
+    import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+
+    import Home from './Home';
+    import DynamicPage from './DynamicPage';
+    import NoMatch from './NoMatch';
+
+    const App = () => {
+      return (
+        <Router>
+          <div>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/dynamic" element={<DynamicPage />} />
+              <Route element={<NoMatch />} />
+            </Routes>
+          </div>
+        </Router>
+      );
+    };
+
+    export default App;
+  `
+  - Open Layout.css and copy the following:
+  `
+    .pull-right {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .h1 {
+      margin-top: 10px !important;
+      margin-bottom: 20px !important;
+    }
+  `
+  -  Open Layout.js and copy the following:
+  `
+    import React from 'react';
+    import { Link } from 'react-router-dom';
+
+    import { pullRight, h1 } from './layout.css';
+
+    const Layout = ({ children }) => {
+      return (
+        <div >
+          <Link to="/">
+            <h1 as="h1" className={h1}>
+              webpack-for-react
+            </h1>
+          </Link>
+          {children}
+          <br />
+          <p className={pullRight}>
+            Made with love by Roshan Pratap Katel
+          </p>
+        </div>
+      );
+    };
+
+    export default Layout;
+  `
+  - 
 
   
