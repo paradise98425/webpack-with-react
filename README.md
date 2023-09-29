@@ -71,18 +71,72 @@ Let's start by setting up the folders and installation of the initial packages:
   This tells Babel to use the presets (plugins) we previously installed. Later when we call babel-loader from Webpack, this is where it will look to know what to do.
 
 7. Setting up Webpack
-
- - Create a file in the root of the project, and name it as ***webpack.config.js***
+ - Create a file inside *src* folder named as ***index.js***
+ - Create another file in the root of the project, and name it as ***webpack.config.js***
  - paste this piece of code inside the file
-  `
+  ```
     const HtmlWebpackPlugin = require('html-webpack-plugin');
     const { WebpackPluginServe } = require('webpack-plugin-serve');
 
     const port = process.env.PORT || 3000;
 
     module.exports = {
-      // Webpack configuration goes here
+      mode: 'development',
+      entry: ['./src/index.js', 'webpack-plugin-serve/client'],
+      output: {
+        filename: 'bundle.[fullhash].js',
+      },
+      devtool: 'inline-source-map',
+      module: {
+        rules: [
+          {
+            test: /\.(js)$/,
+            exclude: /node_modules/,
+            use: ['babel-loader'],
+          },
+          {
+            test: /\.css$/,
+            use: [
+              {
+                loader: 'style-loader',
+                options: {
+                  esModule: true,
+                },
+              },
+              {
+                loader: 'css-loader',
+                options: {
+                  esModule: true,
+                  modules: {
+                    mode: 'local',
+                    exportLocalsConvention: 'camelCaseOnly',
+                    namedExport: true,
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+      plugins: [
+        new HtmlWebpackPlugin({
+          template: 'public/index.html',
+          favicon: 'public/favicon.ico',
+        }),
+        new WebpackPluginServe({
+          host: 'localhost',
+          port: port,
+          historyFallback: true,
+          open: true,
+          liveReload: false,
+          hmr: true,
+          static: './dist',
+        }),
+      ],
+      watch: true,
     };
-  `
+  ``
+
+8. Creating the React App
 
   
