@@ -254,7 +254,35 @@ Let's start by setting up the folders and installation of the initial packages:
   @pmmmwh/react-refresh-webpack-plugin - Webpack plugin to enable 'Fast Refresh'
   @react-refresh - Implements the wiring necessary to integrate Fast Refresh
 
-- Open webpack.config.js and add the following code 
+- Open webpack.config.js and add the following code:
+
+  In the first rule of module:
+  `
+    rules: [
+        // First Rule - We test for files with a .js extension excluding the node_modules directory and use Babel, via 'babel-loader', to 
+        // transpile down to vanilla JavaScript (basically, looking for our React files).
+        {
+          test: /\.(js)$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                plugins: [require('react-refresh/babel')].filter(Boolean),
+              }
+            }
+          ]
+        },
+    ]
+  `
+
+  And in the plugin section:
+  `
+    new ReactRefreshWebpackPlugin({
+      overlay: { sockIntegration: 'wps' },
+    })
+  `
+
 
 
   
