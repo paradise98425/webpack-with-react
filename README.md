@@ -209,6 +209,52 @@ Let's start by setting up the folders and installation of the initial packages:
 
     export default Layout;
   `
-  - 
+  - Open Home.js and copy the following:
+  `
+    import React from 'react';
+    import { Link } from 'react-router-dom';
+
+    import Layout from './Layout';
+
+    const Home = () => {
+      return (
+        <div>
+          <p>Hello World of React and Webpack!</p>
+          <p>
+            <Link to="/dynamic">Navigate to Dynamic Page</Link>
+          </p>
+        </div>
+      );
+    };
+
+    export default Home;
+  `
+  - open DynamicPage.js and copy the following:
+  `
+    import React from 'react';
+    import Layout from './Layout';
+
+    const DynamicPage = () => {
+      return (
+        <Layout>
+          <h2>Dynamic Page</h2>
+          <p>This page was loaded asynchronously!!!</p>
+        </Layout>
+      );
+    };
+
+    export default DynamicPage;
+  `
+
+## Setting up Fast Refresh
+
+- From the root directory run the following command
+  `pnpm install @pmmmwh/react-refresh-webpack-plugin react-refresh -D`
+  Here, 
+  @pmmmwh/react-refresh-webpack-plugin - Webpack plugin to enable 'Fast Refresh'
+  @react-refresh - Implements the wiring necessary to integrate Fast Refresh
+
+- Open webpack.config.js and add the following code 
+
 
   

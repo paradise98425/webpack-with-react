@@ -2,6 +2,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 'webpack-plugin-serve' provides a development server for your application 
 const { WebpackPluginServe } = require('webpack-plugin-serve');
+// webpack plugin to enable "Fast Refresh"
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const port = process.env.PORT || 3000;
 /** 
@@ -14,6 +16,12 @@ const mode = process.env.MODE || 'development';
 
 module.exports = {
   mode: mode,  
+  /**
+   * 'webpack-plugin-serve' is a plugin that provides a development server for your application during development. When you include 
+   * 'webpack-plugin-serve/client' in your entry configuration, it enables features like live reloading, hot module replacement (HMR), and 
+   * other development-related functionality provided by webpack-plugin-serve. This client code is responsible for communication between 
+   * your application code and the development server, allowing for real-time updates and better developer experience.
+   */
   entry: ['./src/index.js', 'webpack-plugin-serve/client'],
   output: {
     // This will be the filename of the bundled application. The [fullhash] portion of the filename will be replaced by a hash generated
@@ -28,7 +36,14 @@ module.exports = {
       {
         test: /\.(js)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [require('react-refresh/babel')].filter(Boolean),
+            }
+          }
+        ]
       },
       // Second Rule - We test for CSS files with a .css extension. Here we use two loaders, 'style-loader' and 'css-loader', to handle our CSS files. 
       // Then we configure the loaders to use CSS Modules (esModule), camel case (exportLocalsConvention) and create source maps. This gives us the 
@@ -58,10 +73,18 @@ module.exports = {
     ]
   },
   plugins: [
+    /**
+     * The HtmlWebpackPlugin generates an HTML file that includes links to your bundled JavaScript files and other assets, making it easier to include these 
+     * resources in your HTML without manual adjustments. The HtmlWebpackPlugin will use public/index.html template to generate HTML file in the output. 
+     */
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       favicon:  'public/favicon.ico'
     }),
+    /**
+     * WebpackPluginServe is an instance of the 'WebpackPluginServe' plugin. This creates a development server with features like automatic browser,
+     * opening, HMR and more.  
+     */
     new WebpackPluginServe({
       host: 'localhost',
       port: port,
@@ -71,6 +94,9 @@ module.exports = {
       hmr: true,
       static: './dist',
     }),
+    new ReactRefreshWebpackPlugin({
+      overlay: { sockIntegration: 'wps' },
+    })
   ],
   watch: true,
 }
