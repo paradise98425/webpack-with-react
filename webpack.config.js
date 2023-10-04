@@ -26,7 +26,7 @@ module.exports = {
   output: {
     // This will be the filename of the bundled application. The [fullhash] portion of the filename will be replaced by a hash generated
     // by Webpack every time your application changes and is recompiled. 
-    filename: 'bundle.[fullhash].js', 
+    filename: '[name].[fullhash].js', 
   },
   devtool: 'inline-source-map',
   module: {
