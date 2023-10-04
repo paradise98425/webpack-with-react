@@ -209,6 +209,142 @@ Let's start by setting up the folders and installation of the initial packages:
 
     export default Layout;
   `
-  - 
+  - Open Home.js and copy the following:
+  `
+    import React from 'react';
+    import { Link } from 'react-router-dom';
+
+    import Layout from './Layout';
+
+    const Home = () => {
+      return (
+        <div>
+          <p>Hello World of React and Webpack!</p>
+          <p>
+            <Link to="/dynamic">Navigate to Dynamic Page</Link>
+          </p>
+        </div>
+      );
+    };
+
+    export default Home;
+  `
+  - open DynamicPage.js and copy the following:
+  `
+    import React from 'react';
+    import Layout from './Layout';
+
+    const DynamicPage = () => {
+      return (
+        <Layout>
+          <h2>Dynamic Page</h2>
+          <p>This page was loaded asynchronously!!!</p>
+        </Layout>
+      );
+    };
+
+    export default DynamicPage;
+  `
+
+## Setting up Fast Refresh
+
+- From the root directory run the following command
+  `pnpm install @pmmmwh/react-refresh-webpack-plugin react-refresh -D`
+  Here, 
+  @pmmmwh/react-refresh-webpack-plugin - Webpack plugin to enable 'Fast Refresh'
+  @react-refresh - Implements the wiring necessary to integrate Fast Refresh
+
+- Open webpack.config.js and add the following code:
+
+  In the first rule of module:
+  `
+    rules: [
+        // First Rule - We test for files with a .js extension excluding the node_modules directory and use Babel, via 'babel-loader', to 
+        // transpile down to vanilla JavaScript (basically, looking for our React files).
+        {
+          test: /\.(js)$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                plugins: [require('react-refresh/babel')].filter(Boolean),
+              }
+            }
+          ]
+        },
+    ]
+  `
+
+  And in the plugin section:
+  `
+    new ReactRefreshWebpackPlugin({
+      overlay: { sockIntegration: 'wps' },
+    })
+  `
+
+## Code splitting
+
+### By Route
+1. Install the react-imported-component and react-delay-render from your terminal
+  `pnpm install react-imported-component react-delay-render`
+
+2. Now, create a Loading component inside your components directory and copy the following code:
+  `
+    import React from 'react';
+    import ReactDelayRender from 'react-delay-render';
+
+    const Loading = () => {
+      return(
+        <p>Loading ...</p>
+      )
+    }
+
+    export default ReactDelayRender({ delay: 300 })(Loading);
+  `
+
+3. Open App.js and modify it as follows:
+  `
+    import React from 'react';
+    import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+    import importedComponent from 'react-imported-component';
+
+    import Home from './Home';
+    import DynamicPage from './DynamicPage';
+    import NoMatch from './DynamicPage';
+    import Loading from './Loading';
+    import '../main.css';
+
+    const AsyncDynamicPage = importedComponent(
+      () => import('./DynamicPage'),
+      {
+        LoadingComponent: Loading
+      }
+    );
+    const AsyncNoMatch = importedComponent(
+      () => import('./NoMatch'),
+      {
+        LoadingComponent: Loading
+      }
+    );
+    
+    const App = () => {
+      return(
+        <Router>
+          <div>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/dynamic" element={<AsyncDynamicPage />} />
+              <Route element={<AsyncNoMatch />} />
+            </Routes>
+          </div>
+        </Router>
+      )
+    }
+    export default App;
+  `
+
+
+
 
   
