@@ -53,7 +53,7 @@ Let's start by setting up the folders and installation of the initial packages:
  - Create a file inside *src* folder named as ***index.js***
  - Create another file in the root of the project, and name it as ***webpack.config.js***
  - paste this piece of code inside the file
-  ```
+  `
     const HtmlWebpackPlugin = require('html-webpack-plugin');
     const { WebpackPluginServe } = require('webpack-plugin-serve');
 
@@ -114,13 +114,13 @@ Let's start by setting up the folders and installation of the initial packages:
       ],
       watch: true,
     };
-  ``
+  `
 
 7. Creating the React App
   - Create a 'public' directory move into it and also create an index.html file. 
   - Also, add favicon.ico file here
   - Open the index.html file and copy the following:
-    ```
+    `
       <!DOCTYPE html>
       <html lang="en">
 
@@ -137,114 +137,114 @@ Let's start by setting up the folders and installation of the initial packages:
       </body>
 
       </html>
-    ``` 
+    `
   - Now, inside your src/index.js file, copy the following:
-  `
-    import React from 'react';
-    import { createRoot } from 'react-dom/client';
-    import App from './components/App';
+    `
+      import React from 'react';
+      import { createRoot } from 'react-dom/client';
+      import App from './components/App';
 
-    createRoot(document.getElementById('root')).render(<App />);
-  `
+      createRoot(document.getElementById('root')).render(<App />);
+    `
   - Create a 'components' folder & create files: App.js, Layout.js, Layout.css, Home.js, DynamicPage.js, NoMatch.js
   - Open App.js and copy the following:
-  `
-    import React from 'react';
-    import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+    `
+      import React from 'react';
+      import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 
-    import Home from './Home';
-    import DynamicPage from './DynamicPage';
-    import NoMatch from './NoMatch';
+      import Home from './Home';
+      import DynamicPage from './DynamicPage';
+      import NoMatch from './NoMatch';
 
-    const App = () => {
-      return (
-        <Router>
-          <div>
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/dynamic" element={<DynamicPage />} />
-              <Route element={<NoMatch />} />
-            </Routes>
-          </div>
-        </Router>
-      );
-    };
+      const App = () => {
+        return (
+          <Router>
+            <div>
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/dynamic" element={<DynamicPage />} />
+                <Route element={<NoMatch />} />
+              </Routes>
+            </div>
+          </Router>
+        );
+      };
 
-    export default App;
-  `
+      export default App;
+    `
   - Open Layout.css and copy the following:
-  `
-    .pull-right {
-      display: flex;
-      justify-content: flex-end;
-    }
-    .h1 {
-      margin-top: 10px !important;
-      margin-bottom: 20px !important;
-    }
-  `
+    `
+      .pull-right {
+        display: flex;
+        justify-content: flex-end;
+      }
+      .h1 {
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
+      }
+    `
   -  Open Layout.js and copy the following:
-  `
-    import React from 'react';
-    import { Link } from 'react-router-dom';
+    `
+      import React from 'react';
+      import { Link } from 'react-router-dom';
 
-    import { pullRight, h1 } from './layout.css';
+      import { pullRight, h1 } from './layout.css';
 
-    const Layout = ({ children }) => {
-      return (
-        <div >
-          <Link to="/">
-            <h1 as="h1" className={h1}>
-              webpack-for-react
-            </h1>
-          </Link>
-          {children}
-          <br />
-          <p className={pullRight}>
-            Made with love by Roshan Pratap Katel
-          </p>
-        </div>
-      );
-    };
+      const Layout = ({ children }) => {
+        return (
+          <div >
+            <Link to="/">
+              <h1 as="h1" className={h1}>
+                webpack-for-react
+              </h1>
+            </Link>
+            {children}
+            <br />
+            <p className={pullRight}>
+              Made with love by Roshan Pratap Katel
+            </p>
+          </div>
+        );
+      };
 
-    export default Layout;
-  `
+      export default Layout;
+    `
   - Open Home.js and copy the following:
-  `
-    import React from 'react';
-    import { Link } from 'react-router-dom';
+    `
+      import React from 'react';
+      import { Link } from 'react-router-dom';
 
-    import Layout from './Layout';
+      import Layout from './Layout';
 
-    const Home = () => {
-      return (
-        <div>
-          <p>Hello World of React and Webpack!</p>
-          <p>
-            <Link to="/dynamic">Navigate to Dynamic Page</Link>
-          </p>
-        </div>
-      );
-    };
+      const Home = () => {
+        return (
+          <div>
+            <p>Hello World of React and Webpack!</p>
+            <p>
+              <Link to="/dynamic">Navigate to Dynamic Page</Link>
+            </p>
+          </div>
+        );
+      };
 
-    export default Home;
-  `
+      export default Home;
+    `
   - open DynamicPage.js and copy the following:
-  `
-    import React from 'react';
-    import Layout from './Layout';
+    `
+      import React from 'react';
+      import Layout from './Layout';
 
-    const DynamicPage = () => {
-      return (
-        <Layout>
-          <h2>Dynamic Page</h2>
-          <p>This page was loaded asynchronously!!!</p>
-        </Layout>
-      );
-    };
+      const DynamicPage = () => {
+        return (
+          <Layout>
+            <h2>Dynamic Page</h2>
+            <p>This page was loaded asynchronously!!!</p>
+          </Layout>
+        );
+      };
 
-    export default DynamicPage;
-  `
+      export default DynamicPage;
+    `
 
 ## Setting up Fast Refresh
 
